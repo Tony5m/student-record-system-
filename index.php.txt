@@ -1,0 +1,58 @@
+<?php include('db.php'); ?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Record System</title>
+</head>
+<body>
+    <h1>Student Record System</h1>
+
+
+    <!-- Form to Add Student -->
+    <form action="add.php" method="POST">
+        <input type="text" name="name" placeholder="Name" required>
+        <input type="number" name="age" placeholder="Age" required>
+        <input type="text" name="grade" placeholder="Grade" required>
+        <button type="submit">Add Student</button>
+    </form>
+
+
+    <!-- Display Student Records -->
+    <h2>Student List</h2>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Grade</th>
+            <th>Actions</th>
+        </tr>
+        <?php
+        $sql = "SELECT * FROM students";
+        $result = $conn->query($sql);
+
+
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                echo "<tr>
+                        <td>" . $row["id"]. "</td>
+                        <td>" . $row["name"]. "</td>
+                        <td>" . $row["age"]. "</td>
+                        <td>" . $row["grade"]. "</td>
+                        <td>
+                            <a href='edit.php?id=" . $row["id"]. "'>Edit</a>
+                            <a href='delete.php?id=" . $row["id"]. "'>Delete</a>
+                        </td>
+                      </tr>";
+            }
+        } else {
+            echo "<tr><td colspan='5'>No students found</td></tr>";
+        }
+        ?>
+    </table>
+</body>
+</html>
+
